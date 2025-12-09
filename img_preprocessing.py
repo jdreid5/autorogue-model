@@ -3,7 +3,7 @@ import joblib
 from tensorflow.keras.preprocessing.image import ImageDataGenerator, load_img, img_to_array
 
 # Define directories
-train_dir = 'data/training_data'
+train_dir = 'data/cropped-images'
 
 # Parameters
 img_size = 224
