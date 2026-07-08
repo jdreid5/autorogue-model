@@ -1,0 +1,39 @@
+============================================================
+POTATO LEAF-ROLL DETECTION MODEL EVALUATION REPORT
+============================================================
+
+OVERALL METRICS (Default Threshold = 0.35)
+----------------------------------------
+Accuracy:    47.06%
+AUC-ROC:     0.3426
+AUC-PR:      0.4257
+F1 Score:    0.6400
+
+CONFUSION MATRIX
+----------------------------------------
+True Negatives (Healthy -> Healthy):    0
+False Positives (Healthy -> Diseased):  17
+False Negatives (Diseased -> Healthy):  1
+True Positives (Diseased -> Diseased):  16
+
+PER-CLASS METRICS
+----------------------------------------
+HEALTHY CLASS:
+  Precision: 0.0000
+  Recall:    0.0000
+
+LEAF ROLL (DISEASED) CLASS:
+  Precision: 0.4848
+  Recall:    0.9412
+
+Sensitivity (TPR): 0.9412
+Specificity (TNR): 0.0000
+
+OPTIMAL THRESHOLD ANALYSIS
+----------------------------------------
+Optimal Threshold (F1): 0.10
+  Precision: 0.5000
+  Recall:    1.0000
+  F1 Score:  0.6667
+
+============================================================

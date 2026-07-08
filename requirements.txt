@@ -1,0 +1,17 @@
+# Potato Leaf-Roll Detection Pipeline
+# Python 3.9+ recommended
+
+# Core ML Framework
+tensorflow>=2.20.0
+keras>=3.10.0
+
+# Scientific Computing
+numpy>=1.24.0,<2.0.0
+scikit-learn>=1.3.0
+
+# Image Processing
+Pillow>=10.0.0
+
+# Visualization
+matplotlib>=3.7.0
+seaborn>=0.12.0
