@@ -11,8 +11,9 @@ from __future__ import annotations
 import argparse
 import json
 import random
+from dataclasses import dataclass
 from pathlib import Path
-from typing import Iterable
+from typing import Iterable, Sequence
 
 import numpy as np
 import tensorflow as tf
@@ -20,6 +21,14 @@ from PIL import Image, ImageDraw, ImageOps
 
 import config
 from datasets.ingest import IMAGE_EXTENSIONS
+
+
+@dataclass(frozen=True)
+class SegmentationPair:
+    image_path: str
+    mask_path: str
+    source: str = "source"
+    sample_weight: float = 1.0
 
 
 def rasterize_polygons(size: tuple[int, int], polygons: Iterable[list[list[float]]]) -> Image.Image:
@@ -162,30 +171,137 @@ def list_segmentation_pairs(
     return pairs
 
 
+def list_segmentation_pair_records(
+    image_dir: Path = config.SEGMENTATION_IMAGE_DIR,
+    mask_dir: Path = config.SEGMENTATION_MASK_DIR,
+    source: str = "source",
+    sample_weight: float = 1.0,
+) -> list[SegmentationPair]:
+    """List segmentation pairs with source metadata and sample weights."""
+    return [
+        SegmentationPair(image_path=image_path, mask_path=mask_path, source=source, sample_weight=sample_weight)
+        for image_path, mask_path in list_segmentation_pairs(image_dir=image_dir, mask_dir=mask_dir)
+    ]
+
+
+def list_combined_segmentation_pairs(
+    image_dir: Path = config.SEGMENTATION_IMAGE_DIR,
+    mask_dir: Path = config.SEGMENTATION_MASK_DIR,
+    field_image_dir: Path = config.FIELD_SEGMENTATION_IMAGE_DIR,
+    field_mask_dir: Path = config.FIELD_SEGMENTATION_MASK_DIR,
+    field_sample_weight: float = config.SEGMENTATION_FIELD_SAMPLE_WEIGHT,
+) -> list[SegmentationPair]:
+    """List source masks plus optional field masks for segmenter training."""
+    pairs = list_segmentation_pair_records(image_dir=image_dir, mask_dir=mask_dir, source="source", sample_weight=1.0)
+    if field_image_dir.exists() and field_mask_dir.exists():
+        pairs.extend(
+            list_segmentation_pair_records(
+                image_dir=field_image_dir,
+                mask_dir=field_mask_dir,
+                source="field",
+                sample_weight=field_sample_weight,
+            )
+        )
+    return pairs
+
+
+def pair_paths_and_weights(
+    pairs: Sequence[tuple[str, str] | SegmentationPair],
+) -> tuple[list[str], list[str], list[float]]:
+    image_paths = []
+    mask_paths = []
+    weights = []
+    for pair in pairs:
+        if isinstance(pair, SegmentationPair):
+            image_paths.append(pair.image_path)
+            mask_paths.append(pair.mask_path)
+            weights.append(float(pair.sample_weight))
+        else:
+            image_paths.append(pair[0])
+            mask_paths.append(pair[1])
+            weights.append(1.0)
+    return image_paths, mask_paths, weights
+
+
+def load_pair(image_path: str, mask_path: str) -> tuple[tf.Tensor, tf.Tensor]:
+    return load_image(image_path), load_mask(mask_path)
+
+
+def random_resized_crop_pair(image: tf.Tensor, mask: tf.Tensor) -> tuple[tf.Tensor, tf.Tensor]:
+    crop_scale = tf.random.uniform([], 0.82, 1.0)
+    crop_size = tf.cast(tf.round(tf.cast(config.SEGMENTATION_IMG_SIZE, tf.float32) * crop_scale), tf.int32)
+    max_offset = config.SEGMENTATION_IMG_SIZE - crop_size
+    offset_y = tf.random.uniform([], 0, max_offset + 1, dtype=tf.int32)
+    offset_x = tf.random.uniform([], 0, max_offset + 1, dtype=tf.int32)
+
+    image_crop = tf.image.crop_to_bounding_box(image, offset_y, offset_x, crop_size, crop_size)
+    mask_crop = tf.image.crop_to_bounding_box(mask, offset_y, offset_x, crop_size, crop_size)
+    image = tf.image.resize(image_crop, (config.SEGMENTATION_IMG_SIZE, config.SEGMENTATION_IMG_SIZE), method="bilinear")
+    mask = tf.image.resize(mask_crop, (config.SEGMENTATION_IMG_SIZE, config.SEGMENTATION_IMG_SIZE), method="nearest")
+    return image, tf.cast(mask > 0.5, tf.float32)
+
+
+def augment_pair(image: tf.Tensor, mask: tf.Tensor) -> tuple[tf.Tensor, tf.Tensor]:
+    """Apply field-safe augmentations identically to image and mask geometry."""
+    if config.HORIZONTAL_FLIP:
+        do_flip = tf.random.uniform([]) > 0.5
+        image = tf.cond(do_flip, lambda: tf.image.flip_left_right(image), lambda: image)
+        mask = tf.cond(do_flip, lambda: tf.image.flip_left_right(mask), lambda: mask)
+    if config.VERTICAL_FLIP:
+        do_flip = tf.random.uniform([]) > 0.5
+        image = tf.cond(do_flip, lambda: tf.image.flip_up_down(image), lambda: image)
+        mask = tf.cond(do_flip, lambda: tf.image.flip_up_down(mask), lambda: mask)
+
+    rotations = tf.random.uniform([], 0, 4, dtype=tf.int32)
+    image = tf.image.rot90(image, rotations)
+    mask = tf.image.rot90(mask, rotations)
+    image, mask = random_resized_crop_pair(image, mask)
+
+    image = tf.image.random_brightness(image, max_delta=config.BRIGHTNESS_RANGE)
+    image = tf.image.random_contrast(image, 1.0 - config.CONTRAST_RANGE, 1.0 + config.CONTRAST_RANGE)
+    noise = tf.random.normal(tf.shape(image), mean=0.0, stddev=0.015, dtype=image.dtype)
+    image = tf.clip_by_value(image + noise, 0.0, 1.0)
+    return image, mask
+
+
+def load_training_example(image_path: str, mask_path: str, sample_weight: tf.Tensor, augment: bool) -> tuple:
+    image, mask = load_pair(image_path, mask_path)
+    if augment:
+        image, mask = augment_pair(image, mask)
+    return image, mask, sample_weight
+
+
 def dataset_from_pairs(
-    pairs: list[tuple[str, str]],
+    pairs: Sequence[tuple[str, str] | SegmentationPair],
     batch_size: int = config.SEGMENTATION_BATCH_SIZE,
     shuffle: bool = True,
+    augment: bool = False,
+    include_sample_weight: bool = True,
 ) -> tf.data.Dataset:
     """Create a tf.data segmentation dataset from explicit image/mask pairs."""
     if not pairs:
         raise FileNotFoundError("No image/mask pairs provided")
 
-    image_paths, mask_paths = zip(*pairs)
-    dataset = tf.data.Dataset.from_tensor_slices((list(image_paths), list(mask_paths)))
+    image_paths, mask_paths, sample_weights = pair_paths_and_weights(pairs)
+    dataset = tf.data.Dataset.from_tensor_slices((image_paths, mask_paths, sample_weights))
     if shuffle:
         dataset = dataset.shuffle(len(pairs), seed=config.SEED)
-    dataset = dataset.map(lambda x, y: (load_image(x), load_mask(y)), num_parallel_calls=tf.data.AUTOTUNE)
+    dataset = dataset.map(
+        lambda x, y, w: load_training_example(x, y, w, augment),
+        num_parallel_calls=tf.data.AUTOTUNE,
+    )
+    if not include_sample_weight:
+        dataset = dataset.map(lambda x, y, w: (x, y), num_parallel_calls=tf.data.AUTOTUNE)
     return dataset.batch(batch_size).prefetch(tf.data.AUTOTUNE)
 
 
 def split_segmentation_pairs(
-    pairs: list[tuple[str, str]],
+    pairs: Sequence[tuple[str, str] | SegmentationPair],
     val_fraction: float = 0.2,
     seed: int = config.SEED,
-) -> tuple[list[tuple[str, str]], list[tuple[str, str]]]:
+) -> tuple[list[tuple[str, str] | SegmentationPair], list[tuple[str, str] | SegmentationPair]]:
     """Deterministically split segmentation pairs into train and validation sets."""
-    pairs = pairs[:]
+    pairs = list(pairs)
     random.Random(seed).shuffle(pairs)
     val_size = max(1, int(len(pairs) * val_fraction)) if len(pairs) > 1 else 0
     return pairs[val_size:], pairs[:val_size]

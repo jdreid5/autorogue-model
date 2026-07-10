@@ -240,6 +240,29 @@ models/autorogue_leaf_segmenter.keras
 The segmenter is a lightweight U-Net style semantic mask model. Connected
 components are used later to turn the semantic mask into leaf crop candidates.
 
+To recover from poor field crops, first select failing field canopies and prepare
+an annotation bundle:
+
+```bash
+py -3.13 -m segment.select_field_failures
+py -3.13 -m segment.prepare_field_annotation_set --clean
+```
+
+Annotate the copied images in `data/segmentation-field/raw/` with same-stem JSON
+polygon files, then convert and fine-tune the segmenter with field-weighted
+examples:
+
+```bash
+py -3.13 -m segment.data --raw-root data/segmentation-field/raw --output-root data/segmentation-field
+py -3.13 -m segment.train --initial-model-path models/autorogue_leaf_segmenter.keras
+```
+
+Before re-running classifier adaptation, evaluate crop quality directly:
+
+```bash
+py -3.13 -m segment.evaluate_field_crops
+```
+
 ### 7. Create Weakly-Labelled Field Leaf Crops
 
 ```bash
