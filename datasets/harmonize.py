@@ -20,7 +20,7 @@ from PIL import Image, ImageFilter, ImageOps
 import config
 from datasets.ingest import IMAGE_EXTENSIONS
 
-NEUTRAL_BACKGROUND = (128, 128, 128)
+NEUTRAL_BACKGROUND = config.NEUTRAL_BACKGROUND_RGB
 
 
 def estimate_leaf_mask(image: Image.Image) -> Image.Image:

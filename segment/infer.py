@@ -215,7 +215,7 @@ def crop_component(
 
     mask_crop = postprocess.feather_mask(np.asarray(mask_crop) > 127)
     crop = original_image.crop(original_bbox)
-    background = Image.new("RGB", crop.size, (128, 128, 128))
+    background = Image.new("RGB", crop.size, config.NEUTRAL_BACKGROUND_RGB)
     crop = Image.composite(crop, background, mask_crop)
     area = int(np.asarray(mask_crop).sum() / 255)
     return LeafInstance(
@@ -236,7 +236,7 @@ def prepare_leaf_for_classifier(crop: Image.Image, image_size: int = config.IMG_
     crop = crop.convert("RGB")
     resized = crop.copy()
     resized.thumbnail((image_size, image_size), Image.Resampling.LANCZOS)
-    canvas = Image.new("RGB", (image_size, image_size), (128, 128, 128))
+    canvas = Image.new("RGB", (image_size, image_size), config.NEUTRAL_BACKGROUND_RGB)
     canvas.paste(resized, ((image_size - resized.width) // 2, (image_size - resized.height) // 2))
     return canvas
 

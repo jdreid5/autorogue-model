@@ -106,6 +106,12 @@ IMG_SHAPE = (IMG_SIZE, IMG_SIZE, 3)
 SEGMENTATION_IMG_SIZE = 384
 SEGMENTATION_IMG_SHAPE = (SEGMENTATION_IMG_SIZE, SEGMENTATION_IMG_SIZE, 3)
 
+# Neutral background behind every classifier input: masked-out canopy pixels,
+# harmonized public leaves, letterbox padding, and augmentation fill. These must
+# agree or the model sees a different background at training and inference time.
+NEUTRAL_BACKGROUND_VALUE = 128
+NEUTRAL_BACKGROUND_RGB = (NEUTRAL_BACKGROUND_VALUE,) * 3
+
 # =============================================================================
 # TRAINING HYPERPARAMETERS
 # =============================================================================

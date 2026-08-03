@@ -214,7 +214,7 @@ def visualize_gradcam(
         Matplotlib figure
     """
     # Preprocess for model
-    preprocessed = keras.applications.mobilenet_v3.preprocess_input(image.copy())
+    preprocessed = preprocess.preprocess_for_mobilenet(image)
     
     # Get prediction
     pred_probs = model.predict(np.expand_dims(preprocessed, axis=0), verbose=0)[0]
@@ -290,7 +290,7 @@ def visualize_batch(
         save_dir.mkdir(parents=True, exist_ok=True)
     
     # Select samples - balance between classes and correct/incorrect predictions
-    preprocessed = keras.applications.mobilenet_v3.preprocess_input(images.copy())
+    preprocessed = preprocess.preprocess_for_mobilenet(images)
     predictions = model.predict(preprocessed, verbose=0)
     pred_classes = np.argmax(predictions, axis=1)
     label_ids = label_indices(labels)
@@ -367,7 +367,7 @@ def create_class_activation_grid(
         
         for i, idx in enumerate(indices):
             img = class_images[idx]
-            preprocessed = keras.applications.mobilenet_v3.preprocess_input(img.copy())
+            preprocessed = preprocess.preprocess_for_mobilenet(img)
             
             # Compute heatmap
             heatmap = compute_gradcam(model, preprocessed)

@@ -61,7 +61,7 @@ def representative_dataset_generator(
         Generator function for TFLite converter
     """
     if preprocessing == "mobilenet":
-        preprocessed = keras.applications.mobilenet_v3.preprocess_input(images.copy())
+        preprocessed = preprocess.preprocess_for_mobilenet(images)
     elif preprocessing == "scale01":
         preprocessed = images.astype(np.float32) / 255.0
     else:
@@ -190,7 +190,7 @@ def validate_tflite_model(
     keras_model = keras.models.load_model(keras_model_path, compile=False)
     
     # Preprocess images
-    preprocessed = keras.applications.mobilenet_v3.preprocess_input(test_images.copy())
+    preprocessed = preprocess.preprocess_for_mobilenet(test_images)
     
     # Keras predictions
     print("Running Keras model predictions...")
@@ -273,7 +273,7 @@ def benchmark_tflite_model(
     output_details = interpreter.get_output_details()
     
     # Preprocess one image
-    img = keras.applications.mobilenet_v3.preprocess_input(test_images[0:1].copy())
+    img = preprocess.preprocess_for_mobilenet(test_images[0:1])
     input_data = img.astype(np.float32)
     
     # Warmup
@@ -527,7 +527,7 @@ def convert_for_android(
             "output_shape": [1, config.NUM_CLASSES],
             "output_type": "float32",
             "labels": config.CLASSES,
-            "preprocessing": "mobilenet_v3 preprocess_input",
+            "preprocessing": "scale RGB to [-1, 1]",
         },
         "segmenter": {
             "available": segmenter_exported,

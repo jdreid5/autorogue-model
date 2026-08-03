@@ -13,6 +13,19 @@ from keras import layers
 
 import config
 
+# Maps [0, 255] pixels onto the [-1, 1] range MobileNetV3 expects.
+MOBILENET_INPUT_SCALE = 1.0 / 127.5
+MOBILENET_INPUT_OFFSET = -1.0
+
+# Geometric augmentation exposes areas outside the source image. Keras defaults to
+# "reflect", which mirrors leaf tissue into regions that are flat neutral background
+# at inference time. Fill with that background instead. Applies to [0, 255] inputs,
+# so augmentation must run before preprocess_for_mobilenet.
+GEOMETRIC_FILL = {
+    "fill_mode": "constant",
+    "fill_value": float(config.NEUTRAL_BACKGROUND_VALUE),
+}
+
 
 def load_dataset(
     directory: Path,
@@ -62,12 +75,12 @@ def get_augmentation_layer(training: bool = True) -> keras.Sequential:
     if training:
         aug_layers = [
             layers.RandomFlip("horizontal"),
-            layers.RandomRotation(config.ROTATION_RANGE / 360),  # Convert degrees to fraction
-            layers.RandomZoom(config.ZOOM_RANGE),
+            layers.RandomRotation(config.ROTATION_RANGE / 360, **GEOMETRIC_FILL),  # Convert degrees to fraction
+            layers.RandomZoom(config.ZOOM_RANGE, **GEOMETRIC_FILL),
             layers.RandomBrightness(config.BRIGHTNESS_RANGE),
             layers.RandomContrast(config.CONTRAST_RANGE),
             # Slight translation for position invariance
-            layers.RandomTranslation(0.1, 0.1),
+            layers.RandomTranslation(0.1, 0.1, **GEOMETRIC_FILL),
         ]
         # Add vertical flip if enabled
         if config.VERTICAL_FLIP:
@@ -77,22 +90,29 @@ def get_augmentation_layer(training: bool = True) -> keras.Sequential:
         # Minimal augmentation for TTA
         return keras.Sequential([
             layers.RandomFlip("horizontal"),
-            layers.RandomRotation(0.05),
+            layers.RandomRotation(0.05, **GEOMETRIC_FILL),
         ], name="tta_augmentation")
 
 
-def preprocess_for_mobilenet(images: tf.Tensor) -> tf.Tensor:
+def preprocess_for_mobilenet(images):
     """
     Preprocess images for MobileNetV3.
     MobileNetV3 expects inputs in [-1, 1] range.
-    
+
+    The backbone is built with `include_preprocessing=False`, so its internal
+    Rescaling layer is absent. `keras.applications.mobilenet_v3.preprocess_input`
+    cannot be used here because it is a no-op kept only for API compatibility;
+    the scaling has to be applied explicitly.
+
     Args:
-        images: Tensor of images in [0, 255] range
-    
+        images: NumPy array or tensor of images in [0, 255] range
+
     Returns:
-        Preprocessed images in [-1, 1] range
+        Preprocessed images in [-1, 1] range, matching the input container type
     """
-    return keras.applications.mobilenet_v3.preprocess_input(images)
+    if isinstance(images, np.ndarray):
+        return images.astype(np.float32) * MOBILENET_INPUT_SCALE + MOBILENET_INPUT_OFFSET
+    return tf.cast(images, tf.float32) * MOBILENET_INPUT_SCALE + MOBILENET_INPUT_OFFSET
 
 
 def mixup(
@@ -321,7 +341,7 @@ def test_time_augmentation(
     
     Args:
         model: Trained model
-        images: Batch of images (already preprocessed)
+        images: Batch of images in [0, 255] range
         n_augments: Number of augmented predictions to average
     
     Returns:
@@ -331,12 +351,13 @@ def test_time_augmentation(
     predictions = []
     
     # Original prediction
-    predictions.append(model(images, training=False))
+    predictions.append(model(preprocess_for_mobilenet(images), training=False))
     
-    # Augmented predictions
+    # Augmented predictions. Augment before preprocessing so the constant fill
+    # value stays in the same [0, 255] scale as the pixels.
     for _ in range(n_augments - 1):
         aug_images = tta_aug(images, training=True)
-        predictions.append(model(aug_images, training=False))
+        predictions.append(model(preprocess_for_mobilenet(aug_images), training=False))
     
     # Average all class-probability predictions.
     return tf.reduce_mean(tf.stack(predictions, axis=0), axis=0)

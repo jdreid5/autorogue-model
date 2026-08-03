@@ -43,7 +43,8 @@ def create_model(
         input_shape=input_shape,
         include_top=False,
         weights=config.PRETRAINED_WEIGHTS,
-        include_preprocessing=False,  # We handle preprocessing in pipeline
+        # Backbone therefore expects [-1, 1]; preprocess.preprocess_for_mobilenet applies it.
+        include_preprocessing=False,
     )
     
     # Freeze/unfreeze backbone

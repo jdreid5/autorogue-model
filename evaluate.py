@@ -64,7 +64,7 @@ def predict_with_tta(
         Averaged predictions
     """
     # Preprocess images
-    preprocessed = keras.applications.mobilenet_v3.preprocess_input(images.copy())
+    preprocessed = preprocess.preprocess_for_mobilenet(images)
     
     all_preds = []
     
@@ -76,7 +76,7 @@ def predict_with_tta(
     
     for _ in range(n_augments - 1):
         aug_images = tta_aug(images, training=True).numpy()
-        aug_preprocessed = keras.applications.mobilenet_v3.preprocess_input(aug_images)
+        aug_preprocessed = preprocess.preprocess_for_mobilenet(aug_images)
         all_preds.append(model.predict(aug_preprocessed, verbose=0))
     
     # Average predictions
@@ -117,7 +117,7 @@ def evaluate_model(
         print(f"Using Test-Time Augmentation ({config.TTA_AUGMENTS} augments)")
         y_prob = predict_with_tta(model, images)
     else:
-        preprocessed = keras.applications.mobilenet_v3.preprocess_input(images.copy())
+        preprocessed = preprocess.preprocess_for_mobilenet(images)
         y_prob = model.predict(preprocessed, verbose=0)
     
     y_true = label_indices(labels)
