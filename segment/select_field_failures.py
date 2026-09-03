@@ -10,6 +10,7 @@ from pathlib import Path
 from PIL import Image, ImageDraw, ImageOps
 
 import config
+from field_splits import excluded_canopy_stems
 
 
 def load_json(path: Path) -> dict:
@@ -19,7 +20,7 @@ def load_json(path: Path) -> dict:
 
 def validation_lookup(validation_results: dict) -> dict[str, dict]:
     lookup = {}
-    for split_name in ("validation", "test"):
+    for split_name in ("adapt", "validation", "test"):
         for record in validation_results.get(split_name, {}).get("predictions", []):
             lookup[record["image_path"]] = record
     return lookup
@@ -55,16 +56,29 @@ def score_canopy(canopy: dict, prediction: dict | None) -> tuple[int, list[str]]
             score += 40
             reasons.append("wrong_prediction")
 
-    if canopy.get("split") in {"validation", "test"}:
-        score += 10
-        reasons.append(f"{canopy.get('split')}_split")
     return score, reasons
 
 
-def select_candidates(audit: dict, validation_results: dict, max_count: int) -> list[dict]:
+def select_candidates(
+    audit: dict,
+    validation_results: dict,
+    max_count: int,
+    held_out_stems: set[str] | None = None,
+) -> list[dict]:
+    """Rank canopies worth annotating, drawing only from the trainable pool.
+
+    Held-out canopies are excluded outright. Previously they were preferred: a
+    canopy scored +10 for sitting in validation or test, which sent annotation
+    effort at exactly the canopies the segmenter would later be graded on.
+    """
+    held_out_stems = held_out_stems or set()
     predictions = validation_lookup(validation_results)
     scored = []
+    skipped_held_out = 0
     for canopy in audit.get("canopies", []):
+        if Path(canopy["canopy_path"]).stem in held_out_stems:
+            skipped_held_out += 1
+            continue
         prediction = predictions.get(canopy["canopy_path"])
         score, reasons = score_canopy(canopy, prediction)
         scored.append(
@@ -98,6 +112,8 @@ def select_candidates(audit: dict, validation_results: dict, max_count: int) -> 
         if record not in selected
     ]
     selected.extend(remaining[: max(0, max_count - len(selected))])
+    if skipped_held_out:
+        print(f"Skipped {skipped_held_out} held-out canopies; they must not be annotated")
     return selected[:max_count]
 
 
@@ -143,6 +159,12 @@ def parse_args() -> argparse.Namespace:
         default=config.OUTPUTS_DIR / "field_segmentation_annotation_candidates.jpg",
     )
     parser.add_argument("--max-count", type=int, default=config.SEGMENTATION_FAILURE_SAMPLE_COUNT)
+    parser.add_argument(
+        "--split-path",
+        type=Path,
+        default=config.UNTOUCHED_SPLIT_PATH,
+        help="Field split whose held-out canopies must not be offered for annotation.",
+    )
     return parser.parse_args()
 
 
@@ -150,7 +172,12 @@ def main() -> None:
     args = parse_args()
     audit = load_json(args.audit_path)
     validation_results = load_json(args.validation_path)
-    candidates = select_candidates(audit, validation_results, args.max_count)
+    candidates = select_candidates(
+        audit,
+        validation_results,
+        args.max_count,
+        held_out_stems=excluded_canopy_stems(split_path=args.split_path),
+    )
 
     args.output_json.parent.mkdir(parents=True, exist_ok=True)
     with open(args.output_json, "w", encoding="utf-8") as handle:

@@ -1,0 +1,1278 @@
+{
+  "split_file": "data\\field-split-images\\canopy_splits.json",
+  "split_counts": {
+    "adapt": 127,
+    "test": 41,
+    "validation": 41
+  },
+  "thresholds": {
+    "leaf_roll": 0.1,
+    "mosaic": 0.15
+  },
+  "validation": {
+    "accuracy": 0.5121951219512195,
+    "macro_f1": 0.29120879120879123,
+    "macro_f1_with_uncertain": 0.2184065934065934,
+    "labels": [
+      "healthy",
+      "leaf_roll",
+      "mosaic",
+      "uncertain"
+    ],
+    "confusion_matrix": [
+      [
+        18,
+        3,
+        0,
+        0
+      ],
+      [
+        17,
+        3,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
+    "classification_report": {
+      "healthy": {
+        "precision": 0.5142857142857142,
+        "recall": 0.8571428571428571,
+        "f1-score": 0.6428571428571429,
+        "support": 21.0
+      },
+      "leaf_roll": {
+        "precision": 0.5,
+        "recall": 0.15,
+        "f1-score": 0.23076923076923078,
+        "support": 20.0
+      },
+      "mosaic": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1-score": 0.0,
+        "support": 0.0
+      },
+      "uncertain": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1-score": 0.0,
+        "support": 0.0
+      },
+      "accuracy": 0.5121951219512195,
+      "macro avg": {
+        "precision": 0.25357142857142856,
+        "recall": 0.2517857142857143,
+        "f1-score": 0.2184065934065934,
+        "support": 41.0
+      },
+      "weighted avg": {
+        "precision": 0.5073170731707316,
+        "recall": 0.5121951219512195,
+        "f1-score": 0.44183864915572235,
+        "support": 41.0
+      }
+    },
+    "diagnostics": {
+      "prediction_counts": {
+        "healthy": 35,
+        "leaf_roll": 6
+      },
+      "true_counts": {
+        "healthy": 21,
+        "leaf_roll": 20
+      },
+      "uncertain_count": 0,
+      "uncertain_rate": 0.0,
+      "zero_crop_count": 0,
+      "zero_crop_rate": 0.0,
+      "zero_confident_crop_count": 0,
+      "zero_confident_crop_rate": 0.0,
+      "mean_leaf_count": 11.536585365853659,
+      "median_leaf_count": 11.0,
+      "mean_used_leaf_count": 7.024390243902439,
+      "median_used_leaf_count": 7.0,
+      "mean_verdict_confidence": 0.9596777883363248
+    },
+    "predictions": [
+      {
+        "image_path": "data\\cropped-images\\healthy-russets\\PXL_20240724_181018531.jpg",
+        "true_label": "healthy",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 13,
+        "used_leaf_count": 10,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\healthy-russets\\PXL_20240724_181105174.jpg",
+        "true_label": "healthy",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 12,
+        "used_leaf_count": 4,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\healthy-russets\\PXL_20240724_181118519.jpg",
+        "true_label": "healthy",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 11,
+        "used_leaf_count": 4,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\healthy-russets\\PXL_20240724_181142832.jpg",
+        "true_label": "healthy",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 14,
+        "used_leaf_count": 5,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\healthy-russets\\PXL_20240724_181521503.jpg",
+        "true_label": "healthy",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 17,
+        "used_leaf_count": 11,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\healthy-russets\\PXL_20240724_181540699.jpg",
+        "true_label": "healthy",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 15,
+        "used_leaf_count": 10,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\healthy-russets\\PXL_20240724_181654299.jpg",
+        "true_label": "healthy",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 11,
+        "used_leaf_count": 7,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\healthy-russets\\PXL_20240724_181656478.jpg",
+        "true_label": "healthy",
+        "predicted_label": "healthy",
+        "verdict_confidence": 0.9090909090909091,
+        "leaf_count": 16,
+        "used_leaf_count": 11,
+        "class_fractions": {
+          "healthy": 0.9090909090909091,
+          "leaf_roll": 0.09090909090909091,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\healthy-russets\\PXL_20240724_181800152.jpg",
+        "true_label": "healthy",
+        "predicted_label": "leaf_roll",
+        "verdict_confidence": 0.8333333333333334,
+        "leaf_count": 12,
+        "used_leaf_count": 6,
+        "class_fractions": {
+          "healthy": 0.8333333333333334,
+          "leaf_roll": 0.16666666666666666,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\healthy-russets\\PXL_20240724_181826335.jpg",
+        "true_label": "healthy",
+        "predicted_label": "leaf_roll",
+        "verdict_confidence": 0.2222222222222222,
+        "leaf_count": 12,
+        "used_leaf_count": 9,
+        "class_fractions": {
+          "healthy": 0.7777777777777778,
+          "leaf_roll": 0.2222222222222222,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\healthy-russets\\PXL_20240724_181835671.jpg",
+        "true_label": "healthy",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 14,
+        "used_leaf_count": 8,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\healthy-russets\\PXL_20240724_182121151.jpg",
+        "true_label": "healthy",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 16,
+        "used_leaf_count": 13,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\healthy-russets\\PXL_20240724_182125817.jpg",
+        "true_label": "healthy",
+        "predicted_label": "leaf_roll",
+        "verdict_confidence": 0.875,
+        "leaf_count": 15,
+        "used_leaf_count": 8,
+        "class_fractions": {
+          "healthy": 0.875,
+          "leaf_roll": 0.125,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\healthy-russets\\PXL_20240724_182130882.jpg",
+        "true_label": "healthy",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 17,
+        "used_leaf_count": 13,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\healthy-russets\\PXL_20240724_182135312.jpg",
+        "true_label": "healthy",
+        "predicted_label": "healthy",
+        "verdict_confidence": 0.9166666666666666,
+        "leaf_count": 16,
+        "used_leaf_count": 12,
+        "class_fractions": {
+          "healthy": 0.9166666666666666,
+          "leaf_roll": 0.08333333333333333,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\healthy-russets\\PXL_20240724_182203956.jpg",
+        "true_label": "healthy",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 12,
+        "used_leaf_count": 4,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\healthy-russets\\PXL_20240724_182215144.jpg",
+        "true_label": "healthy",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 15,
+        "used_leaf_count": 10,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\healthy-russets\\PXL_20240724_182254293.jpg",
+        "true_label": "healthy",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 13,
+        "used_leaf_count": 10,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\healthy-russets\\PXL_20240724_182302500.jpg",
+        "true_label": "healthy",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 11,
+        "used_leaf_count": 7,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\healthy-russets\\PXL_20240724_182307024.jpg",
+        "true_label": "healthy",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 7,
+        "used_leaf_count": 3,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\healthy-russets\\PXL_20240724_182428643.jpg",
+        "true_label": "healthy",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 10,
+        "used_leaf_count": 6,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_171115058.jpg",
+        "true_label": "leaf_roll",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 13,
+        "used_leaf_count": 4,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_171116922.jpg",
+        "true_label": "leaf_roll",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 9,
+        "used_leaf_count": 3,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_171531839.jpg",
+        "true_label": "leaf_roll",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 9,
+        "used_leaf_count": 5,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_171652143.jpg",
+        "true_label": "leaf_roll",
+        "predicted_label": "leaf_roll",
+        "verdict_confidence": 0.9,
+        "leaf_count": 11,
+        "used_leaf_count": 10,
+        "class_fractions": {
+          "healthy": 0.9,
+          "leaf_roll": 0.1,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_171930756.jpg",
+        "true_label": "leaf_roll",
+        "predicted_label": "leaf_roll",
+        "verdict_confidence": 0.8571428571428571,
+        "leaf_count": 9,
+        "used_leaf_count": 7,
+        "class_fractions": {
+          "healthy": 0.8571428571428571,
+          "leaf_roll": 0.14285714285714285,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_172354552.jpg",
+        "true_label": "leaf_roll",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 9,
+        "used_leaf_count": 7,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_172735032.jpg",
+        "true_label": "leaf_roll",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 11,
+        "used_leaf_count": 7,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_172900989.jpg",
+        "true_label": "leaf_roll",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 9,
+        "used_leaf_count": 3,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_172907202.jpg",
+        "true_label": "leaf_roll",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 10,
+        "used_leaf_count": 8,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_173300624.jpg",
+        "true_label": "leaf_roll",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 14,
+        "used_leaf_count": 8,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_173314326.jpg",
+        "true_label": "leaf_roll",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 5,
+        "used_leaf_count": 1,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_173805791.jpg",
+        "true_label": "leaf_roll",
+        "predicted_label": "leaf_roll",
+        "verdict_confidence": 0.8333333333333334,
+        "leaf_count": 13,
+        "used_leaf_count": 6,
+        "class_fractions": {
+          "healthy": 0.8333333333333334,
+          "leaf_roll": 0.16666666666666666,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_174405764.jpg",
+        "true_label": "leaf_roll",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 7,
+        "used_leaf_count": 6,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_174542535.jpg",
+        "true_label": "leaf_roll",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 7,
+        "used_leaf_count": 5,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_174546899.jpg",
+        "true_label": "leaf_roll",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 12,
+        "used_leaf_count": 10,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_174626875.jpg",
+        "true_label": "leaf_roll",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 11,
+        "used_leaf_count": 7,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_175213954.jpg",
+        "true_label": "leaf_roll",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 8,
+        "used_leaf_count": 3,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_175231131.jpg",
+        "true_label": "leaf_roll",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 11,
+        "used_leaf_count": 8,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_175733118.jpg",
+        "true_label": "leaf_roll",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 9,
+        "used_leaf_count": 4,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_180130244.jpg",
+        "true_label": "leaf_roll",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 7,
+        "used_leaf_count": 5,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      }
+    ]
+  },
+  "test": {
+    "accuracy": 0.4634146341463415,
+    "macro_f1": 0.23467432950191572,
+    "macro_f1_with_uncertain": 0.1760057471264368,
+    "labels": [
+      "healthy",
+      "leaf_roll",
+      "mosaic",
+      "uncertain"
+    ],
+    "confusion_matrix": [
+      [
+        18,
+        3,
+        0,
+        0
+      ],
+      [
+        19,
+        1,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
+    "classification_report": {
+      "healthy": {
+        "precision": 0.4864864864864865,
+        "recall": 0.8571428571428571,
+        "f1-score": 0.6206896551724138,
+        "support": 21.0
+      },
+      "leaf_roll": {
+        "precision": 0.25,
+        "recall": 0.05,
+        "f1-score": 0.08333333333333333,
+        "support": 20.0
+      },
+      "mosaic": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1-score": 0.0,
+        "support": 0.0
+      },
+      "uncertain": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1-score": 0.0,
+        "support": 0.0
+      },
+      "accuracy": 0.4634146341463415,
+      "macro avg": {
+        "precision": 0.18412162162162163,
+        "recall": 0.22678571428571428,
+        "f1-score": 0.1760057471264368,
+        "support": 41.0
+      },
+      "weighted avg": {
+        "precision": 0.3711272247857614,
+        "recall": 0.4634146341463415,
+        "f1-score": 0.3585646201289599,
+        "support": 41.0
+      }
+    },
+    "diagnostics": {
+      "prediction_counts": {
+        "leaf_roll": 4,
+        "healthy": 37
+      },
+      "true_counts": {
+        "healthy": 21,
+        "leaf_roll": 20
+      },
+      "uncertain_count": 0,
+      "uncertain_rate": 0.0,
+      "zero_crop_count": 0,
+      "zero_crop_rate": 0.0,
+      "zero_confident_crop_count": 0,
+      "zero_confident_crop_rate": 0.0,
+      "mean_leaf_count": 11.24390243902439,
+      "median_leaf_count": 11.0,
+      "mean_used_leaf_count": 7.048780487804878,
+      "median_used_leaf_count": 7.0,
+      "mean_verdict_confidence": 0.9582655826558266
+    },
+    "predictions": [
+      {
+        "image_path": "data\\cropped-images\\healthy-russets\\PXL_20240724_181059424.jpg",
+        "true_label": "healthy",
+        "predicted_label": "leaf_roll",
+        "verdict_confidence": 0.8333333333333334,
+        "leaf_count": 17,
+        "used_leaf_count": 6,
+        "class_fractions": {
+          "healthy": 0.8333333333333334,
+          "leaf_roll": 0.16666666666666666,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\healthy-russets\\PXL_20240724_181356312.jpg",
+        "true_label": "healthy",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 19,
+        "used_leaf_count": 11,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\healthy-russets\\PXL_20240724_181426965.jpg",
+        "true_label": "healthy",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 11,
+        "used_leaf_count": 6,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\healthy-russets\\PXL_20240724_181535075.jpg",
+        "true_label": "healthy",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 15,
+        "used_leaf_count": 9,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\healthy-russets\\PXL_20240724_181600853.jpg",
+        "true_label": "healthy",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 11,
+        "used_leaf_count": 7,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\healthy-russets\\PXL_20240724_181703780.jpg",
+        "true_label": "healthy",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 11,
+        "used_leaf_count": 8,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\healthy-russets\\PXL_20240724_181709397.jpg",
+        "true_label": "healthy",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 15,
+        "used_leaf_count": 12,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\healthy-russets\\PXL_20240724_181719308.jpg",
+        "true_label": "healthy",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 14,
+        "used_leaf_count": 8,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\healthy-russets\\PXL_20240724_181730716.jpg",
+        "true_label": "healthy",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 11,
+        "used_leaf_count": 7,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\healthy-russets\\PXL_20240724_181753149.jpg",
+        "true_label": "healthy",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 14,
+        "used_leaf_count": 8,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\healthy-russets\\PXL_20240724_181820714.jpg",
+        "true_label": "healthy",
+        "predicted_label": "healthy",
+        "verdict_confidence": 0.9166666666666666,
+        "leaf_count": 16,
+        "used_leaf_count": 12,
+        "class_fractions": {
+          "healthy": 0.9166666666666666,
+          "leaf_roll": 0.08333333333333333,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\healthy-russets\\PXL_20240724_181840655.jpg",
+        "true_label": "healthy",
+        "predicted_label": "leaf_roll",
+        "verdict_confidence": 0.8888888888888888,
+        "leaf_count": 13,
+        "used_leaf_count": 9,
+        "class_fractions": {
+          "healthy": 0.8888888888888888,
+          "leaf_roll": 0.1111111111111111,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\healthy-russets\\PXL_20240724_182049670.jpg",
+        "true_label": "healthy",
+        "predicted_label": "leaf_roll",
+        "verdict_confidence": 0.25,
+        "leaf_count": 15,
+        "used_leaf_count": 4,
+        "class_fractions": {
+          "healthy": 0.75,
+          "leaf_roll": 0.25,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\healthy-russets\\PXL_20240724_182106467.jpg",
+        "true_label": "healthy",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 8,
+        "used_leaf_count": 3,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\healthy-russets\\PXL_20240724_182109270.jpg",
+        "true_label": "healthy",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 13,
+        "used_leaf_count": 10,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\healthy-russets\\PXL_20240724_182159280.jpg",
+        "true_label": "healthy",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 14,
+        "used_leaf_count": 8,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\healthy-russets\\PXL_20240724_182227386.jpg",
+        "true_label": "healthy",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 12,
+        "used_leaf_count": 9,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\healthy-russets\\PXL_20240724_182311044.jpg",
+        "true_label": "healthy",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 9,
+        "used_leaf_count": 5,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\healthy-russets\\PXL_20240724_182338797.jpg",
+        "true_label": "healthy",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 8,
+        "used_leaf_count": 6,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\healthy-russets\\PXL_20240724_182412826.jpg",
+        "true_label": "healthy",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 5,
+        "used_leaf_count": 3,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\healthy-russets\\PXL_20240724_182506672.jpg",
+        "true_label": "healthy",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 12,
+        "used_leaf_count": 10,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_171042558.jpg",
+        "true_label": "leaf_roll",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 10,
+        "used_leaf_count": 9,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_171052787.jpg",
+        "true_label": "leaf_roll",
+        "predicted_label": "leaf_roll",
+        "verdict_confidence": 0.4,
+        "leaf_count": 15,
+        "used_leaf_count": 5,
+        "class_fractions": {
+          "healthy": 0.6,
+          "leaf_roll": 0.4,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_171348236.jpg",
+        "true_label": "leaf_roll",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 14,
+        "used_leaf_count": 3,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_171950219.jpg",
+        "true_label": "leaf_roll",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 13,
+        "used_leaf_count": 9,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_172011777.jpg",
+        "true_label": "leaf_roll",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 5,
+        "used_leaf_count": 4,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_172018587.jpg",
+        "true_label": "leaf_roll",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 4,
+        "used_leaf_count": 2,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_172033489.jpg",
+        "true_label": "leaf_roll",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 5,
+        "used_leaf_count": 4,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_173031252.MP.jpg",
+        "true_label": "leaf_roll",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 11,
+        "used_leaf_count": 6,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_173210451.jpg",
+        "true_label": "leaf_roll",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 11,
+        "used_leaf_count": 8,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_174005210.jpg",
+        "true_label": "leaf_roll",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 12,
+        "used_leaf_count": 7,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_174316166.jpg",
+        "true_label": "leaf_roll",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 8,
+        "used_leaf_count": 4,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_174602746.jpg",
+        "true_label": "leaf_roll",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 5,
+        "used_leaf_count": 3,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_175017353.jpg",
+        "true_label": "leaf_roll",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 6,
+        "used_leaf_count": 4,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_175130857.jpg",
+        "true_label": "leaf_roll",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 18,
+        "used_leaf_count": 16,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_175145077.jpg",
+        "true_label": "leaf_roll",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 10,
+        "used_leaf_count": 7,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_175506744.jpg",
+        "true_label": "leaf_roll",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 9,
+        "used_leaf_count": 5,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_175526318.jpg",
+        "true_label": "leaf_roll",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 10,
+        "used_leaf_count": 6,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_175816660.jpg",
+        "true_label": "leaf_roll",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 8,
+        "used_leaf_count": 5,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_175943744.jpg",
+        "true_label": "leaf_roll",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 14,
+        "used_leaf_count": 11,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      },
+      {
+        "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_180742624.jpg",
+        "true_label": "leaf_roll",
+        "predicted_label": "healthy",
+        "verdict_confidence": 1.0,
+        "leaf_count": 10,
+        "used_leaf_count": 10,
+        "class_fractions": {
+          "healthy": 1.0,
+          "leaf_roll": 0.0,
+          "mosaic": 0.0
+        }
+      }
+    ]
+  },
+  "n_validation": 41,
+  "n_test": 41
+}

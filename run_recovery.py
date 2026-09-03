@@ -8,7 +8,9 @@ from pathlib import Path
 import config
 from datasets.canopy_to_leaves import segment_canopy_dataset
 from domain_adapt import fine_tune_on_field_leaves
-from field_splits import ADAPT_SPLIT, split_file, write_field_splits
+from field_groups import write_capture_groups
+from field_holdout import build_untouched_split
+from field_splits import ADAPT_SPLIT
 from field_validate import validate_field_pipeline
 
 
@@ -35,14 +37,16 @@ def run_recovery(
     require_model(segmenter_path, "segmenter model")
     require_model(classifier_path, "base classifier model")
 
-    write_field_splits(canopy_root=canopy_root, output_dir=config.FIELD_SPLIT_DIR)
-    split_path = split_file()
+    write_capture_groups(canopy_root=canopy_root, output_dir=config.FIELD_SPLIT_DIR)
+    build_untouched_split(canopy_root=canopy_root)
+    split_path = config.UNTOUCHED_SPLIT_PATH
 
     segment_canopy_dataset(
         canopy_root=canopy_root,
         output_root=field_root,
         model_path=segmenter_path,
         clean_output=clean_field_crops,
+        split_path=split_path,
     )
 
     fine_tune_on_field_leaves(

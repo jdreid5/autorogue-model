@@ -182,7 +182,7 @@ def validate_field_pipeline(
     test_records = run_predictions(test_examples, segmenter, classifier)
 
     results = {
-        "split_file": str(split_path or config.FIELD_SPLIT_DIR / "canopy_splits.json"),
+        "split_file": str(split_path or config.UNTOUCHED_SPLIT_PATH),
         "split_counts": dict(Counter(record.split for record in split_records)),
         "thresholds": thresholds,
         "validation": summarize(val_records, thresholds),
@@ -205,7 +205,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--segmenter-path", type=Path, default=config.MODELS_DIR / config.SEGMENTER_MODEL_NAME)
     parser.add_argument("--classifier-path", type=Path, default=config.MODELS_DIR / config.CLASSIFIER_MODEL_NAME)
     parser.add_argument("--output-path", type=Path, default=config.OUTPUTS_DIR / "field_validation_results.json")
-    parser.add_argument("--split-path", type=Path, default=config.FIELD_SPLIT_DIR / "canopy_splits.json")
+    parser.add_argument("--split-path", type=Path, default=config.UNTOUCHED_SPLIT_PATH)
     return parser.parse_args()
 
 

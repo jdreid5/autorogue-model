@@ -11,6 +11,7 @@ import numpy as np
 import tensorflow as tf
 
 import config
+from field_splits import excluded_canopy_stems
 from segment.data import (
     SegmentationPair,
     dataset_from_pairs,
@@ -40,19 +41,28 @@ def train_segmenter(
     learning_rate: float | None = None,
     augment: bool = True,
     field_sample_weight: float = config.SEGMENTATION_FIELD_SAMPLE_WEIGHT,
+    split_path: Path | None = None,
 ) -> keras.Model:
     if output_path is None:
         output_path = config.MODELS_DIR / config.SEGMENTER_MODEL_NAME
 
+    held_out_canopies: list[str] = []
+    excluded_field_pairs: list[str] = []
     if field_image_dir is None or field_mask_dir is None:
         pairs = list_segmentation_pairs(image_dir=image_dir, mask_dir=mask_dir)
     else:
-        pairs = list_combined_segmentation_pairs(
+        held_out_canopies = sorted(excluded_canopy_stems(split_path=split_path))
+        pairs, excluded_field_pairs = list_combined_segmentation_pairs(
             image_dir=image_dir,
             mask_dir=mask_dir,
             field_image_dir=field_image_dir,
             field_mask_dir=field_mask_dir,
             field_sample_weight=field_sample_weight,
+            excluded_canopy_stems=held_out_canopies,
+        )
+        print(
+            f"Held-out canopies known to the split: {len(held_out_canopies)}; "
+            f"field masks dropped from training: {len(excluded_field_pairs)}"
         )
     if not pairs:
         raise FileNotFoundError(
@@ -103,6 +113,9 @@ def train_segmenter(
                 "train_sources": source_counts(train_pairs),
                 "validation_sources": source_counts(val_pairs),
                 "field_sample_weight": field_sample_weight,
+                "split_path": str(split_path or config.UNTOUCHED_SPLIT_PATH),
+                "n_held_out_canopies": len(held_out_canopies),
+                "excluded_field_pairs": excluded_field_pairs,
                 "initial_model_path": str(initial_model_path) if initial_model_path else None,
                 "learning_rate": float(learning_rate),
                 "augment": augment,
@@ -128,6 +141,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--initial-model-path", type=Path, default=None)
     parser.add_argument("--learning-rate", type=float, default=None)
     parser.add_argument("--field-sample-weight", type=float, default=config.SEGMENTATION_FIELD_SAMPLE_WEIGHT)
+    parser.add_argument(
+        "--split-path",
+        type=Path,
+        default=config.UNTOUCHED_SPLIT_PATH,
+        help="Field split whose held-out canopies must not enter segmenter training.",
+    )
     parser.add_argument("--no-augment", action="store_true")
     return parser.parse_args()
 
@@ -147,6 +166,7 @@ def main() -> None:
         learning_rate=args.learning_rate,
         augment=not args.no_augment,
         field_sample_weight=args.field_sample_weight,
+        split_path=args.split_path,
     )
 
 

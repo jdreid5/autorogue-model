@@ -213,3 +213,34 @@ FIELD_VAL_FRACTION = 0.2
 MIN_FIELD_MACRO_F1_FOR_EXPORT = 0.5
 MAX_FIELD_UNCERTAIN_RATE_FOR_EXPORT = 0.25
 
+# =============================================================================
+# LEAK-FREE FIELD GROUPING AND HOLDOUT
+# =============================================================================
+# Canopies were captured as repeated shots of one plant before moving on, so
+# splitting per image puts near-duplicate frames of the same plant on both sides
+# of the train/test boundary. Splits must be assigned per capture group instead.
+
+# Consecutive shots closer together than this belong to the same burst, and a
+# burst is the proxy for plant identity. Measured inter-frame gaps within a
+# healthy burst sit near 5s, while deliberate moves between plants exceed 20s.
+FIELD_BURST_GAP_SECONDS = 20.0
+
+# GPS fixes within this distance are treated as one plot. The phone emits one
+# fix per stationary position, so this merges jitter without merging plots.
+FIELD_PLOT_RADIUS_METRES = 25.0
+
+# Non-test canopies captured within this window of a test canopy are quarantined
+# rather than trained on, covering the case where one plant spans two bursts.
+# Set above twice the 20.1s worst-case within-burst gap; raising it to 90s costs
+# a quarter of the training canopies for no extra separation that matters.
+FIELD_HOLDOUT_BUFFER_SECONDS = 45.0
+
+# Grouped cross-validation over all capture groups. A single holdout leaves only
+# two independent healthy plants in test, which cannot support a canopy metric.
+FIELD_CV_FOLDS = 5
+
+# Split file emitted by field_holdout.py. Kept separate from canopy_splits.json
+# so the leaked legacy split stays readable for comparison.
+UNTOUCHED_SPLIT_FILENAME = "untouched_canopy_splits.json"
+UNTOUCHED_SPLIT_PATH = FIELD_SPLIT_DIR / UNTOUCHED_SPLIT_FILENAME
+

@@ -15,6 +15,12 @@ SPLIT_FILENAME = "canopy_splits.json"
 ADAPT_SPLIT = "adapt"
 VALIDATION_SPLIT = "validation"
 TEST_SPLIT = "test"
+QUARANTINE_SPLIT = "quarantine"
+
+# Only `adapt` may be fitted on. Quarantined canopies are near-duplicates of test
+# canopies and are excluded from everything.
+TRAINABLE_SPLITS = frozenset({ADAPT_SPLIT})
+HELD_OUT_SPLITS = frozenset({VALIDATION_SPLIT, TEST_SPLIT, QUARANTINE_SPLIT})
 
 
 @dataclass(frozen=True)
@@ -23,6 +29,11 @@ class CanopyExample:
     true_label: str
     source_class: str
     split: str
+    # Populated by field_holdout.py. Legacy canopy_splits.json records omit them.
+    group_id: str = ""
+    plot_id: str = ""
+    session_id: str = ""
+    captured_at: str = ""
 
 
 def list_canopy_examples(canopy_root: Path = config.CANOPY_DIR) -> list[CanopyExample]:
@@ -115,6 +126,14 @@ def load_field_splits(
     if not split_path.exists():
         if not create_if_missing:
             raise FileNotFoundError(f"No field split file found at {split_path}")
+        if split_path.name != SPLIT_FILENAME:
+            # Only the legacy ungrouped split can be regenerated from folder contents.
+            # Silently rebuilding a grouped split here would produce a leaked one
+            # under a filename that promises the opposite.
+            raise FileNotFoundError(
+                f"No field split file at {split_path}. Run `python field_holdout.py` to "
+                f"build the capture-grouped split before training or evaluating."
+            )
         return write_field_splits(canopy_root=canopy_root, output_dir=split_path.parent)
 
     with open(split_path, "r", encoding="utf-8") as handle:
@@ -149,6 +168,35 @@ def split_lookup(
         lookup[str(path).replace("/", "\\")] = example.split
         lookup[str(path).replace("\\", "/")] = example.split
     return lookup
+
+
+def excluded_canopy_stems(
+    split_path: Path | None = None,
+    canopy_root: Path = config.CANOPY_DIR,
+    missing_ok: bool = True,
+) -> set[str]:
+    """Filename stems of canopies that no model may be fitted on.
+
+    Anything outside the `adapt` split is held out, so this is the guard that
+    keeps test canopies out of segmenter training, crop generation, and
+    annotation selection. Returns an empty set when no split file exists so the
+    legacy ungrouped workflow keeps running.
+    """
+    if split_path is None:
+        split_path = config.UNTOUCHED_SPLIT_PATH
+    if not Path(split_path).exists():
+        if missing_ok:
+            return set()
+        raise FileNotFoundError(f"No field split file found at {split_path}")
+
+    examples = load_field_splits(
+        split_path=Path(split_path), canopy_root=canopy_root, create_if_missing=False
+    )
+    return {
+        Path(example.image_path).stem
+        for example in examples
+        if example.split not in TRAINABLE_SPLITS
+    }
 
 
 def parse_args() -> argparse.Namespace:

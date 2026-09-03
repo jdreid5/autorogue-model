@@ -33,8 +33,12 @@ def load_field_manifest_records(
             if not line.strip():
                 continue
             record = json.loads(line)
-            if "split" not in record:
-                record["split"] = canopy_splits.get(str(Path(record["canopy_path"])), "unknown")
+            # The manifest records whichever split was current when the crops were
+            # cut. Trusting it would silently reinstate a superseded split, so the
+            # split file always wins.
+            record["split"] = canopy_splits.get(
+                str(Path(record["canopy_path"])), record.get("split", "unknown")
+            )
             records.append(record)
     return records
 
@@ -130,7 +134,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--base-model-path", type=Path, default=config.MODELS_DIR / config.CLASSIFIER_MODEL_NAME)
     parser.add_argument("--field-root", type=Path, default=config.FIELD_LEAF_DIR)
     parser.add_argument("--field-split", default=ADAPT_SPLIT, help="Field crop split to train on; use 'all' only for experiments.")
-    parser.add_argument("--split-path", type=Path, default=config.FIELD_SPLIT_DIR / "canopy_splits.json")
+    parser.add_argument("--split-path", type=Path, default=config.UNTOUCHED_SPLIT_PATH)
     parser.add_argument(
         "--output-path",
         type=Path,

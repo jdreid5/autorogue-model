@@ -1,0 +1,719 @@
+{
+  "experiment": "1 \u00b7 genuinely untouched field test",
+  "generated_at": "2026-09-03T15:48:07.673975+00:00",
+  "split_file": "data\\field-split-images\\untouched_canopy_splits.json",
+  "cv_folds_file": "data\\field-split-images\\untouched_canopy_folds.json",
+  "cv_folds": [
+    {
+      "fold": 0,
+      "test_canopies": 46,
+      "test_groups": 12,
+      "test_groups_by_class": {
+        "healthy": 1,
+        "leaf_roll": 11
+      },
+      "test_canopies_by_class": {
+        "leaf_roll": 21,
+        "healthy": 25
+      },
+      "train_canopies": 142,
+      "quarantined_canopies": 21
+    },
+    {
+      "fold": 1,
+      "test_canopies": 41,
+      "test_groups": 12,
+      "test_groups_by_class": {
+        "healthy": 1,
+        "leaf_roll": 11
+      },
+      "test_canopies_by_class": {
+        "leaf_roll": 21,
+        "healthy": 20
+      },
+      "train_canopies": 156,
+      "quarantined_canopies": 12
+    },
+    {
+      "fold": 2,
+      "test_canopies": 41,
+      "test_groups": 13,
+      "test_groups_by_class": {
+        "healthy": 1,
+        "leaf_roll": 12
+      },
+      "test_canopies_by_class": {
+        "leaf_roll": 21,
+        "healthy": 20
+      },
+      "train_canopies": 146,
+      "quarantined_canopies": 22
+    },
+    {
+      "fold": 3,
+      "test_canopies": 41,
+      "test_groups": 14,
+      "test_groups_by_class": {
+        "healthy": 2,
+        "leaf_roll": 12
+      },
+      "test_canopies_by_class": {
+        "leaf_roll": 21,
+        "healthy": 20
+      },
+      "train_canopies": 153,
+      "quarantined_canopies": 15
+    },
+    {
+      "fold": 4,
+      "test_canopies": 40,
+      "test_groups": 13,
+      "test_groups_by_class": {
+        "healthy": 2,
+        "leaf_roll": 11
+      },
+      "test_canopies_by_class": {
+        "leaf_roll": 20,
+        "healthy": 20
+      },
+      "train_canopies": 151,
+      "quarantined_canopies": 18
+    }
+  ],
+  "parameters": {
+    "seed": 42,
+    "test_fraction": 0.2,
+    "val_fraction": 0.2,
+    "buffer_seconds": 45.0,
+    "n_folds": 5,
+    "burst_gap_seconds": 20.0,
+    "plot_radius_metres": 25.0,
+    "exclude_annotated_from_test": false,
+    "grouping_keys": [
+      "session_id",
+      "plot_id",
+      "burst_id",
+      "plant_id"
+    ]
+  },
+  "checks": [
+    {
+      "check": "every_canopy_assigned",
+      "status": "pass",
+      "detail": "209/209 canopies assigned to a split",
+      "unassigned": []
+    },
+    {
+      "check": "no_capture_group_spans_splits",
+      "status": "pass",
+      "detail": "0 of 55 capture groups span more than one split",
+      "groups": []
+    },
+    {
+      "check": "temporal_buffer_respected",
+      "status": "pass",
+      "detail": "nearest non-test canopy is 45.7s from a test canopy (buffer 45s)",
+      "min_seconds_to_non_test": 45.665
+    },
+    {
+      "check": "test_clean_of_segmentation_annotation",
+      "status": "action_required",
+      "detail": "11 test canopies were consumed by segmentation_annotation; the artifact it produced is invalid until regenerated under this split",
+      "canopies": [
+        "PXL_20240724_171450606",
+        "PXL_20240724_172011777",
+        "PXL_20240724_172018587",
+        "PXL_20240724_172033489",
+        "PXL_20240724_172900989",
+        "PXL_20240724_172907202",
+        "PXL_20240724_173031252.MP",
+        "PXL_20240724_175213954",
+        "PXL_20240724_175231131",
+        "PXL_20240724_181356312"
+      ],
+      "stale_artifact": "models/autorogue_leaf_segmenter.keras"
+    },
+    {
+      "check": "test_clean_of_segmenter_training",
+      "status": "action_required",
+      "detail": "11 test canopies were consumed by segmenter_training; the artifact it produced is invalid until regenerated under this split",
+      "canopies": [
+        "PXL_20240724_171450606",
+        "PXL_20240724_172011777",
+        "PXL_20240724_172018587",
+        "PXL_20240724_172033489",
+        "PXL_20240724_172900989",
+        "PXL_20240724_172907202",
+        "PXL_20240724_173031252.MP",
+        "PXL_20240724_175213954",
+        "PXL_20240724_175231131",
+        "PXL_20240724_181356312"
+      ],
+      "stale_artifact": "models/autorogue_leaf_segmenter.keras"
+    },
+    {
+      "check": "test_clean_of_classifier_adaptation",
+      "status": "pass",
+      "detail": "no test canopy was consumed by classifier_adaptation",
+      "canopies": [],
+      "stale_artifact": null
+    },
+    {
+      "check": "test_clean_of_threshold_calibration",
+      "status": "action_required",
+      "detail": "10 test canopies were consumed by threshold_calibration; the artifact it produced is invalid until regenerated under this split",
+      "canopies": [
+        "PXL_20240724_172900989",
+        "PXL_20240724_172907202",
+        "PXL_20240724_173300624",
+        "PXL_20240724_173314326",
+        "PXL_20240724_173805791",
+        "PXL_20240724_175213954",
+        "PXL_20240724_175231131",
+        "PXL_20240724_180130244",
+        "PXL_20240724_181654299",
+        "PXL_20240724_181656478"
+      ],
+      "stale_artifact": "outputs/field_validation_results*.json thresholds"
+    },
+    {
+      "check": "selection_exposure_representative",
+      "status": "pass",
+      "detail": "46.3% of test canopies were scored by failure selection versus 47.8% of all canopies; assignment ignored selection score, so the test set is not enriched for pipeline failures",
+      "test_rate": 0.4634,
+      "population_rate": 0.4785
+    },
+    {
+      "check": "test_plots_disjoint_from_training",
+      "status": "warn",
+      "detail": "6 plot(s) contribute to both test and training; all healthy canopies share one GPS fix, so plot-level disjointness is unachievable for that class",
+      "shared_plots": [
+        "2024-07-24__google-pixel-8-pro__plot00",
+        "2024-07-24__google-pixel-8-pro__plot01",
+        "2024-07-24__google-pixel-8-pro__plot02",
+        "2024-07-24__google-pixel-8-pro__plot03",
+        "2024-07-24__google-pixel-8-pro__plot04",
+        "2024-07-24__google-pixel-8-pro__plot05"
+      ]
+    },
+    {
+      "check": "sufficient_independent_test_groups",
+      "status": "warn",
+      "detail": "the test set holds 12 independent capture groups across 41 canopies, but only 2 of class 'healthy'; per-class metrics resolve to no better than +/-41% at 95% confidence, so read the grouped cross-validation folds instead of this holdout alone",
+      "independent_groups": 12,
+      "groups_by_class": {
+        "healthy": 2,
+        "leaf_roll": 10
+      }
+    }
+  ],
+  "statistics": {
+    "canopies_per_split": {
+      "adapt": 110,
+      "quarantine": 22,
+      "test": 41,
+      "validation": 36
+    },
+    "groups_per_split": {
+      "adapt": 31,
+      "quarantine": 12,
+      "test": 12,
+      "validation": 12
+    },
+    "class_counts_per_split": {
+      "adapt": {
+        "leaf_roll": 54,
+        "healthy": 56
+      },
+      "quarantine": {
+        "leaf_roll": 13,
+        "healthy": 9
+      },
+      "test": {
+        "leaf_roll": 21,
+        "healthy": 20
+      },
+      "validation": {
+        "leaf_roll": 16,
+        "healthy": 20
+      }
+    },
+    "test_groups_by_class": {
+      "healthy": 2,
+      "leaf_roll": 10
+    },
+    "effective_sample_size": {
+      "note": "Canopies within a capture group are repeated shots of one plant, so the independent unit is the group, not the canopy.",
+      "test_canopies": 41,
+      "test_independent_groups": 12,
+      "accuracy_resolution_95ci": 0.2462
+    },
+    "remediation_required": [
+      {
+        "touch": "segmentation_annotation",
+        "test_canopies_affected": 11,
+        "stale_artifact": "models/autorogue_leaf_segmenter.keras"
+      },
+      {
+        "touch": "segmenter_training",
+        "test_canopies_affected": 11,
+        "stale_artifact": "models/autorogue_leaf_segmenter.keras"
+      },
+      {
+        "touch": "threshold_calibration",
+        "test_canopies_affected": 10,
+        "stale_artifact": "outputs/field_validation_results*.json thresholds"
+      }
+    ]
+  },
+  "touch_ledger": {
+    "sources": {
+      "classifier_adaptation": [
+        "data\\field-leaves\\manifest.jsonl"
+      ],
+      "failure_selection": [
+        "outputs\\field_segmentation_annotation_candidates.json"
+      ],
+      "segmentation_annotation": [
+        "data\\segmentation-field\\raw"
+      ],
+      "segmenter_training": [
+        "data\\segmentation-field\\images"
+      ],
+      "threshold_calibration": [
+        "data\\field-split-images\\canopy_splits.json",
+        "outputs\\field_validation_results.json",
+        "outputs\\field_validation_results_adapted.json",
+        "outputs\\field_validation_results_prefix.json"
+      ]
+    },
+    "counts": {
+      "classifier_adaptation": 130,
+      "failure_selection": 100,
+      "segmentation_annotation": 54,
+      "segmenter_training": 54,
+      "threshold_calibration": 41
+    }
+  },
+  "touched_canopies_by_split": {
+    "adapt": {
+      "classifier_adaptation": 103,
+      "failure_selection": 55,
+      "segmentation_annotation": 32,
+      "segmenter_training": 32,
+      "threshold_calibration": 19
+    },
+    "quarantine": {
+      "classifier_adaptation": 0,
+      "failure_selection": 10,
+      "segmentation_annotation": 7,
+      "segmenter_training": 7,
+      "threshold_calibration": 4
+    },
+    "test": {
+      "classifier_adaptation": 0,
+      "failure_selection": 19,
+      "segmentation_annotation": 11,
+      "segmenter_training": 11,
+      "threshold_calibration": 10
+    },
+    "validation": {
+      "classifier_adaptation": 20,
+      "failure_selection": 16,
+      "segmentation_annotation": 4,
+      "segmenter_training": 4,
+      "threshold_calibration": 8
+    }
+  },
+  "quarantined_canopies": [
+    {
+      "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_171418983.jpg",
+      "group_id": "2024-07-24__google-pixel-8-pro__leaf-roll-russets__burst005",
+      "previous_split": "adapt",
+      "seconds_from_nearest_test_canopy": 31.623
+    },
+    {
+      "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_171513914.jpg",
+      "group_id": "2024-07-24__google-pixel-8-pro__leaf-roll-russets__burst007",
+      "previous_split": "validation",
+      "seconds_from_nearest_test_canopy": 23.308
+    },
+    {
+      "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_171531839.jpg",
+      "group_id": "2024-07-24__google-pixel-8-pro__leaf-roll-russets__burst007",
+      "previous_split": "validation",
+      "seconds_from_nearest_test_canopy": 41.233
+    },
+    {
+      "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_171930756.jpg",
+      "group_id": "2024-07-24__google-pixel-8-pro__leaf-roll-russets__burst012",
+      "previous_split": "validation",
+      "seconds_from_nearest_test_canopy": 41.021
+    },
+    {
+      "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_171950219.jpg",
+      "group_id": "2024-07-24__google-pixel-8-pro__leaf-roll-russets__burst012",
+      "previous_split": "validation",
+      "seconds_from_nearest_test_canopy": 21.558
+    },
+    {
+      "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_172058508.jpg",
+      "group_id": "2024-07-24__google-pixel-8-pro__leaf-roll-russets__burst014",
+      "previous_split": "adapt",
+      "seconds_from_nearest_test_canopy": 25.019
+    },
+    {
+      "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_173008762.jpg",
+      "group_id": "2024-07-24__google-pixel-8-pro__leaf-roll-russets__burst022",
+      "previous_split": "adapt",
+      "seconds_from_nearest_test_canopy": 22.49
+    },
+    {
+      "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_173858689.jpg",
+      "group_id": "2024-07-24__google-pixel-8-pro__leaf-roll-russets__burst031",
+      "previous_split": "validation",
+      "seconds_from_nearest_test_canopy": 36.161
+    },
+    {
+      "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_175130857.jpg",
+      "group_id": "2024-07-24__google-pixel-8-pro__leaf-roll-russets__burst042",
+      "previous_split": "adapt",
+      "seconds_from_nearest_test_canopy": 43.097
+    },
+    {
+      "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_175145077.jpg",
+      "group_id": "2024-07-24__google-pixel-8-pro__leaf-roll-russets__burst042",
+      "previous_split": "adapt",
+      "seconds_from_nearest_test_canopy": 28.877
+    },
+    {
+      "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_175339551.jpg",
+      "group_id": "2024-07-24__google-pixel-8-pro__leaf-roll-russets__burst044",
+      "previous_split": "adapt",
+      "seconds_from_nearest_test_canopy": 29.052
+    },
+    {
+      "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_180026859.jpg",
+      "group_id": "2024-07-24__google-pixel-8-pro__leaf-roll-russets__burst050",
+      "previous_split": "adapt",
+      "seconds_from_nearest_test_canopy": 28.656
+    },
+    {
+      "image_path": "data\\cropped-images\\leaf-roll-russets\\PXL_20240724_180159106.jpg",
+      "group_id": "2024-07-24__google-pixel-8-pro__leaf-roll-russets__burst053",
+      "previous_split": "adapt",
+      "seconds_from_nearest_test_canopy": 28.862
+    },
+    {
+      "image_path": "data\\cropped-images\\healthy-russets\\PXL_20240724_181521503.jpg",
+      "group_id": "2024-07-24__google-pixel-8-pro__healthy-russets__burst002",
+      "previous_split": "adapt",
+      "seconds_from_nearest_test_canopy": 32.608
+    },
+    {
+      "image_path": "data\\cropped-images\\healthy-russets\\PXL_20240724_181530566.jpg",
+      "group_id": "2024-07-24__google-pixel-8-pro__healthy-russets__burst002",
+      "previous_split": "adapt",
+      "seconds_from_nearest_test_canopy": 41.671
+    },
+    {
+      "image_path": "data\\cropped-images\\healthy-russets\\PXL_20240724_181620686.jpg",
+      "group_id": "2024-07-24__google-pixel-8-pro__healthy-russets__burst002",
+      "previous_split": "adapt",
+      "seconds_from_nearest_test_canopy": 27.729
+    },
+    {
+      "image_path": "data\\cropped-images\\healthy-russets\\PXL_20240724_181628282.jpg",
+      "group_id": "2024-07-24__google-pixel-8-pro__healthy-russets__burst002",
+      "previous_split": "adapt",
+      "seconds_from_nearest_test_canopy": 20.133
+    },
+    {
+      "image_path": "data\\cropped-images\\healthy-russets\\PXL_20240724_181753149.jpg",
+      "group_id": "2024-07-24__google-pixel-8-pro__healthy-russets__burst004",
+      "previous_split": "adapt",
+      "seconds_from_nearest_test_canopy": 22.433
+    },
+    {
+      "image_path": "data\\cropped-images\\healthy-russets\\PXL_20240724_181757834.jpg",
+      "group_id": "2024-07-24__google-pixel-8-pro__healthy-russets__burst004",
+      "previous_split": "adapt",
+      "seconds_from_nearest_test_canopy": 27.118
+    },
+    {
+      "image_path": "data\\cropped-images\\healthy-russets\\PXL_20240724_181800152.jpg",
+      "group_id": "2024-07-24__google-pixel-8-pro__healthy-russets__burst004",
+      "previous_split": "adapt",
+      "seconds_from_nearest_test_canopy": 29.436
+    },
+    {
+      "image_path": "data\\cropped-images\\healthy-russets\\PXL_20240724_181809438.jpg",
+      "group_id": "2024-07-24__google-pixel-8-pro__healthy-russets__burst004",
+      "previous_split": "adapt",
+      "seconds_from_nearest_test_canopy": 38.722
+    },
+    {
+      "image_path": "data\\cropped-images\\healthy-russets\\PXL_20240724_181815530.MP.jpg",
+      "group_id": "2024-07-24__google-pixel-8-pro__healthy-russets__burst004",
+      "previous_split": "adapt",
+      "seconds_from_nearest_test_canopy": 44.814
+    }
+  ],
+  "provenance": {
+    "git_commit": "ed757ba962f581e8e3d9f30fa452923c19fce342",
+    "git_worktree_dirty": true,
+    "split_definition_code": {
+      "field_groups.py": {
+        "path": "field_groups.py",
+        "exists": true,
+        "sha256": "8d8dd6d970f71fe08280fc9f4c13531d61942eb84a3a2ccc8cdad3031d14521b",
+        "sha256_12": "8d8dd6d970f7",
+        "modified": "2026-09-03T15:18:37.014656+00:00",
+        "bytes": 16024
+      },
+      "field_holdout.py": {
+        "path": "field_holdout.py",
+        "exists": true,
+        "sha256": "6530d88abf1b9822ed64ea4c6ac72d7dd6acb516685d06149143ab2622bfaba9",
+        "sha256_12": "6530d88abf1b",
+        "modified": "2026-09-03T15:18:02.303749+00:00",
+        "bytes": 32457
+      },
+      "field_splits.py": {
+        "path": "field_splits.py",
+        "exists": true,
+        "sha256": "36942f78ec9bb3764280c9e4f3097431cace7a301b60faf78348ef115c2a95a6",
+        "sha256_12": "36942f78ec9b",
+        "modified": "2026-09-03T13:27:52.676827+00:00",
+        "bytes": 8267
+      },
+      "config.py": {
+        "path": "config.py",
+        "exists": true,
+        "sha256": "1687bd629f5106f8b8a48801410ec8bc09b5d48b1cb5ece16aef53748c53e5bb",
+        "sha256_12": "1687bd629f51",
+        "modified": "2026-09-03T15:17:54.785127+00:00",
+        "bytes": 9077
+      }
+    },
+    "capture_groups_file": {
+      "path": "data\\field-split-images\\canopy_groups.json",
+      "exists": true,
+      "sha256": "fe0f144f7e3049736b9210aa29873199819e9f02e51281e30ca03b905bcdd123",
+      "sha256_12": "fe0f144f7e30",
+      "modified": "2026-09-03T15:48:07.456504+00:00",
+      "bytes": 194249
+    },
+    "split_file": {
+      "path": "data\\field-split-images\\untouched_canopy_splits.json",
+      "exists": true,
+      "sha256": "72154c09a0856fe3227262d7ad812381b1dbfca973cbe7e04a0fe12300e8d318",
+      "sha256_12": "72154c09a085",
+      "modified": "2026-09-03T15:48:07.669878+00:00",
+      "bytes": 89503
+    },
+    "models": {
+      "segmenter": {
+        "path": "models\\autorogue_leaf_segmenter.keras",
+        "exists": true,
+        "sha256": "d78b02b2e6c6e7c94045c0fbe2312e13f91825f1f13b56286c67309bd0271937",
+        "sha256_12": "d78b02b2e6c6",
+        "modified": "2026-07-09T16:41:41.876586+00:00",
+        "bytes": 23609130
+      },
+      "classifier": {
+        "path": "models\\autorogue_leaf_classifier.keras",
+        "exists": true,
+        "sha256": "a707dd28718b86f3eadede0ffdd2bf60aa1700ca2e24cde9ccc2375a72ac25b1",
+        "sha256_12": "a707dd28718b",
+        "modified": "2026-08-03T11:42:32.231989+00:00",
+        "bytes": 10162600
+      },
+      "classifier_field_adapted": {
+        "path": "models\\autorogue_leaf_classifier_field_adapted.keras",
+        "exists": true,
+        "sha256": "1b35791ffad6063af45a119a4641ada68c192e0b62be7dc99a15d3cac9359e8a",
+        "sha256_12": "1b35791ffad6",
+        "modified": "2026-09-03T14:30:07.504125+00:00",
+        "bytes": 10156574
+      }
+    },
+    "all_model_checkpoints": [
+      {
+        "path": "models\\autorogue_final.keras",
+        "exists": true,
+        "sha256": "89d1be4af5a933e526d94565fd958a20c0658ae154338b64ac107950930937a5",
+        "sha256_12": "89d1be4af5a9",
+        "modified": "2025-12-09T18:37:01.840184+00:00",
+        "bytes": 10144653
+      },
+      {
+        "path": "models\\autorogue_leaf_classifier.keras",
+        "exists": true,
+        "sha256": "a707dd28718b86f3eadede0ffdd2bf60aa1700ca2e24cde9ccc2375a72ac25b1",
+        "sha256_12": "a707dd28718b",
+        "modified": "2026-08-03T11:42:32.231989+00:00",
+        "bytes": 10162600
+      },
+      {
+        "path": "models\\autorogue_leaf_classifier_field_adapted.keras",
+        "exists": true,
+        "sha256": "1b35791ffad6063af45a119a4641ada68c192e0b62be7dc99a15d3cac9359e8a",
+        "sha256_12": "1b35791ffad6",
+        "modified": "2026-09-03T14:30:07.504125+00:00",
+        "bytes": 10156574
+      },
+      {
+        "path": "models\\autorogue_leaf_segmenter.keras",
+        "exists": true,
+        "sha256": "d78b02b2e6c6e7c94045c0fbe2312e13f91825f1f13b56286c67309bd0271937",
+        "sha256_12": "d78b02b2e6c6",
+        "modified": "2026-07-09T16:41:41.876586+00:00",
+        "bytes": 23609130
+      },
+      {
+        "path": "models\\final_model.keras",
+        "exists": true,
+        "sha256": "cd57184bca518d2df37fb387386d86e8e50c7ae2675ac90ffa372b5b28d078cd",
+        "sha256_12": "cd57184bca51",
+        "modified": "2026-08-03T11:40:45.086227+00:00",
+        "bytes": 10162600
+      },
+      {
+        "path": "models\\final_stage1.keras",
+        "exists": true,
+        "sha256": "ccebc2622a37ee23f0e8b115d2d729fbfe0335d2ca79dd5f7edde06ec67f142e",
+        "sha256_12": "ccebc2622a37",
+        "modified": "2026-08-03T11:36:42.330037+00:00",
+        "bytes": 4351304
+      },
+      {
+        "path": "models\\fold0_final.keras",
+        "exists": true,
+        "sha256": "f49843c4e7a150c3dbc45b480f5abe1b9557cf5acd28ff4f5a539e8d2dce5c71",
+        "sha256_12": "f49843c4e7a1",
+        "modified": "2026-08-03T11:12:37.008748+00:00",
+        "bytes": 10162400
+      },
+      {
+        "path": "models\\fold0_stage1_best.keras",
+        "exists": true,
+        "sha256": "9d26cd1fd10bbe015b9ce5b6140949e3fb8572be5bb1c56c1dfd29f613b0b4ba",
+        "sha256_12": "9d26cd1fd10b",
+        "modified": "2026-08-03T11:09:37.287327+00:00",
+        "bytes": 4351102
+      },
+      {
+        "path": "models\\fold0_stage2_best.keras",
+        "exists": true,
+        "sha256": "d3c64f65cefa960226c561cfbee5218c6d5edf0bbacc6285cf747304244ba02c",
+        "sha256_12": "d3c64f65cefa",
+        "modified": "2026-08-03T11:10:57.656654+00:00",
+        "bytes": 10162400
+      },
+      {
+        "path": "models\\fold1_final.keras",
+        "exists": true,
+        "sha256": "1b867a36b445c37f8d1213318c7072d183975cd2d5508823cac310f2c0283f89",
+        "sha256_12": "1b867a36b445",
+        "modified": "2026-08-03T11:19:16.055458+00:00",
+        "bytes": 10162556
+      },
+      {
+        "path": "models\\fold1_stage1_best.keras",
+        "exists": true,
+        "sha256": "d14b69af34f2537ffe0c5cd2f98bc97a3fe0e540fb0fb41b77fd329f45780948",
+        "sha256_12": "d14b69af34f2",
+        "modified": "2026-08-03T11:13:34.066370+00:00",
+        "bytes": 4351261
+      },
+      {
+        "path": "models\\fold1_stage2_best.keras",
+        "exists": true,
+        "sha256": "fbdcbfe4d759d93cd2ed244855d3e48e21af4618bf1255cb38e8d36a98ddfa36",
+        "sha256_12": "fbdcbfe4d759",
+        "modified": "2026-08-03T11:17:30.095694+00:00",
+        "bytes": 10162557
+      },
+      {
+        "path": "models\\fold2_final.keras",
+        "exists": true,
+        "sha256": "176547affba8713db97af51c1435b5593266d87b902da397146394c6d6150140",
+        "sha256_12": "176547affba8",
+        "modified": "2026-08-03T11:24:07.650306+00:00",
+        "bytes": 10162563
+      },
+      {
+        "path": "models\\fold2_stage1_best.keras",
+        "exists": true,
+        "sha256": "0075a680cf3313eed99295a2bbc36720067071f5cd85017bf9ccb59927eca00f",
+        "sha256_12": "0075a680cf33",
+        "modified": "2026-08-03T11:21:09.533565+00:00",
+        "bytes": 4351267
+      },
+      {
+        "path": "models\\fold2_stage2_best.keras",
+        "exists": true,
+        "sha256": "6a62715cee1a22ecdc3c841b9cc037d8447576c7876101ba3ce4803373abbc45",
+        "sha256_12": "6a62715cee1a",
+        "modified": "2026-08-03T11:22:30.788325+00:00",
+        "bytes": 10162563
+      },
+      {
+        "path": "models\\fold3_final.keras",
+        "exists": true,
+        "sha256": "8d04c324f73fcd1a4a406cf3556015ca204f1bb43d56a8cb1084b15a6bd53786",
+        "sha256_12": "8d04c324f73f",
+        "modified": "2026-08-03T11:28:53.075150+00:00",
+        "bytes": 10162571
+      },
+      {
+        "path": "models\\fold3_stage1_best.keras",
+        "exists": true,
+        "sha256": "6f68f6eef1df1d6641a7500c16f7208a758990c5de6c54b1f226d5ce08cf40e8",
+        "sha256_12": "6f68f6eef1df",
+        "modified": "2026-08-03T11:25:50.947922+00:00",
+        "bytes": 4351275
+      },
+      {
+        "path": "models\\fold3_stage2_best.keras",
+        "exists": true,
+        "sha256": "40ee1fd3529596df27476b10b3dbdd502c6750ea7ea8b2f3916a958863d86223",
+        "sha256_12": "40ee1fd35295",
+        "modified": "2026-08-03T11:27:16.696797+00:00",
+        "bytes": 10162571
+      },
+      {
+        "path": "models\\fold4_final.keras",
+        "exists": true,
+        "sha256": "88a59e009deeb9a0ba6c30cf28b105c2c0f4a73f941eeb49db3f251b6e51ba32",
+        "sha256_12": "88a59e009dee",
+        "modified": "2026-08-03T11:35:29.535255+00:00",
+        "bytes": 10162571
+      },
+      {
+        "path": "models\\fold4_stage1_best.keras",
+        "exists": true,
+        "sha256": "ad63f0e69620ebfe2c56090d896014a6f49c003f371825655ffb6ed30736d084",
+        "sha256_12": "ad63f0e69620",
+        "modified": "2026-08-03T11:31:39.077106+00:00",
+        "bytes": 4351275
+      },
+      {
+        "path": "models\\fold4_stage2_best.keras",
+        "exists": true,
+        "sha256": "7e5faa029e0d5eea2d8dffa2b71313722e0c371e4565642a0093860c12277353",
+        "sha256_12": "7e5faa029e0d",
+        "modified": "2026-08-03T11:33:44.799344+00:00",
+        "bytes": 10162571
+      }
+    ]
+  },
+  "caveats": [
+    "All 209 canopies come from one date, one device, one variety, and one operator run, so this split measures generalization to new plants only, not to new sessions, sites, varieties, devices, or growth stages.",
+    "Plant identity is inferred from capture bursts rather than recorded, so a plant photographed in two separated bursts could still straddle the split; the temporal buffer is the mitigation, not a proof.",
+    "All healthy canopies share a single GPS fix, so plot-level holdout is impossible for that class and burst grouping carries the whole guarantee.",
+    "Every canopy was scored by select_field_failures.py using model predictions. Assignment ignores that score, so the test set is not enriched for failures, but the exposure cannot be undone.",
+    "Existing checkpoints and calibrated thresholds predate this split. Any metric read from them is not leak-free; see statistics.remediation_required."
+  ]
+}

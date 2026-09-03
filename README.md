@@ -46,6 +46,8 @@ segment/
 pipeline/
   infer_canopy.py             End-to-end canopy inference and aggregation
 
+field_groups.py               Recover EXIF capture metadata; group canopies by plant
+field_holdout.py              Build and audit the leak-free field test split
 domain_adapt.py               Fine-tune classifier on weak field leaf crops
 field_validate.py             Field-only end-to-end validation
 ```
@@ -263,7 +265,40 @@ Before re-running classifier adaptation, evaluate crop quality directly:
 py -3.13 -m segment.evaluate_field_crops
 ```
 
-### 7. Create Weakly-Labelled Field Leaf Crops
+### 7. Build the Capture-Grouped Field Split
+
+```bash
+python field_groups.py
+python field_holdout.py
+```
+
+Field canopies are repeated shots of the same plant, so splitting per image puts
+near-duplicate frames on both sides of the train/test boundary. `field_groups.py`
+recovers capture time, GPS, and device from the pristine originals in
+`data/healthy-russets/` and `data/leaf-roll-russets/` — `data/cropped-images/`
+has no EXIF — and groups the 209 canopies into plants. `field_holdout.py` assigns
+whole groups to splits, quarantines training canopies captured too close in time
+to a test canopy, audits the result for leakage, and records model, split, and
+code hashes.
+
+Output:
+
+```text
+data/field-split-images/canopy_groups.json
+data/field-split-images/untouched_canopy_splits.json
+data/field-split-images/untouched_canopy_folds.json
+outputs/untouched_field_test_manifest.json
+```
+
+Every later stage defaults to `untouched_canopy_splits.json` and only fits on the
+`adapt` split, so this step must run before steps 8-10. Read the `checks` block of
+the manifest before trusting any field metric: entries marked `action_required`
+name artifacts that are stale until regenerated under this split.
+
+Because the holdout leaves only two independent healthy plants in test, prefer the
+grouped cross-validation folds for any per-class claim.
+
+### 8. Create Weakly-Labelled Field Leaf Crops
 
 ```bash
 python -m datasets.canopy_to_leaves
@@ -283,7 +318,7 @@ data/field-leaves/manifest.jsonl
 
 There is no `mosaic` field folder unless field mosaic canopy images are added.
 
-### 8. Domain Adapt the Classifier
+### 9. Domain Adapt the Classifier
 
 ```bash
 python domain_adapt.py
@@ -297,7 +332,7 @@ Output:
 models/autorogue_leaf_classifier_field_adapted.keras
 ```
 
-### 9. Validate End-to-End on Field Canopy Images
+### 10. Validate End-to-End on Field Canopy Images
 
 ```bash
 python field_validate.py

@@ -122,10 +122,11 @@ def segment_canopy_dataset(
     output_root: Path = config.FIELD_LEAF_DIR,
     model_path: Path | None = None,
     clean_output: bool = False,
+    split_path: Path | None = None,
 ) -> list[FieldLeafRecord]:
     source_map = config.SOURCE_CLASS_MAP["canopy_weak"]
     segmenter = load_segmenter(model_path)
-    canopy_splits = split_lookup(canopy_root=canopy_root)
+    canopy_splits = split_lookup(split_path=split_path, canopy_root=canopy_root)
     records: list[FieldLeafRecord] = []
     canopy_audit: list[dict] = []
     rejected_components: list[dict] = []
@@ -234,12 +235,19 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output-root", type=Path, default=config.FIELD_LEAF_DIR)
     parser.add_argument("--model-path", type=Path, default=config.MODELS_DIR / config.SEGMENTER_MODEL_NAME)
     parser.add_argument("--clean-output", action="store_true", help="Remove old field crops before regenerating.")
+    parser.add_argument("--split-path", type=Path, default=config.UNTOUCHED_SPLIT_PATH)
     return parser.parse_args()
 
 
 def main() -> None:
     args = parse_args()
-    segment_canopy_dataset(args.canopy_root, args.output_root, args.model_path, args.clean_output)
+    segment_canopy_dataset(
+        args.canopy_root,
+        args.output_root,
+        args.model_path,
+        args.clean_output,
+        split_path=args.split_path,
+    )
 
 
 if __name__ == "__main__":

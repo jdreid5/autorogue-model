@@ -13,7 +13,7 @@ import json
 import random
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Iterable, Sequence
+from typing import Collection, Iterable, Sequence
 
 import numpy as np
 import tensorflow as tf
@@ -184,25 +184,43 @@ def list_segmentation_pair_records(
     ]
 
 
+def field_pair_canopy_stem(image_path: str | Path) -> str:
+    """Recover the canopy stem from a `{source_class}__{stem}` field mask name."""
+    stem = Path(image_path).stem
+    return stem.split("__", 1)[1] if "__" in stem else stem
+
+
 def list_combined_segmentation_pairs(
     image_dir: Path = config.SEGMENTATION_IMAGE_DIR,
     mask_dir: Path = config.SEGMENTATION_MASK_DIR,
     field_image_dir: Path = config.FIELD_SEGMENTATION_IMAGE_DIR,
     field_mask_dir: Path = config.FIELD_SEGMENTATION_MASK_DIR,
     field_sample_weight: float = config.SEGMENTATION_FIELD_SAMPLE_WEIGHT,
-) -> list[SegmentationPair]:
-    """List source masks plus optional field masks for segmenter training."""
+    excluded_canopy_stems: Collection[str] | None = None,
+) -> tuple[list[SegmentationPair], list[str]]:
+    """List source masks plus field masks, dropping held-out field canopies.
+
+    Field masks come from annotated canopies, and annotating a canopy the pipeline
+    is later scored on is the leak that made the previous segmenter evaluation
+    meaningless. `excluded_canopy_stems` is the guard; the dropped pairs are
+    returned so training can record exactly what it declined to learn from.
+    """
     pairs = list_segmentation_pair_records(image_dir=image_dir, mask_dir=mask_dir, source="source", sample_weight=1.0)
+    excluded: list[str] = []
     if field_image_dir.exists() and field_mask_dir.exists():
-        pairs.extend(
-            list_segmentation_pair_records(
-                image_dir=field_image_dir,
-                mask_dir=field_mask_dir,
-                source="field",
-                sample_weight=field_sample_weight,
-            )
+        field_pairs = list_segmentation_pair_records(
+            image_dir=field_image_dir,
+            mask_dir=field_mask_dir,
+            source="field",
+            sample_weight=field_sample_weight,
         )
-    return pairs
+        held_out = set(excluded_canopy_stems or ())
+        for pair in field_pairs:
+            if field_pair_canopy_stem(pair.image_path) in held_out:
+                excluded.append(pair.image_path)
+            else:
+                pairs.append(pair)
+    return pairs, excluded
 
 
 def pair_paths_and_weights(
