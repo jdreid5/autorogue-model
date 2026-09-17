@@ -29,5 +29,3 @@ model = load_model('models/autorogue_v0.keras')
 loss, accuracy = model.evaluate(validation_generator)
 print(f'Validation Accuracy: {accuracy*100:.2f}%')
 print(f'Validation Loss: {loss:.4f}')
-
-# comment
